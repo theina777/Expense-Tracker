@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="interactive-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-cursor"></div>
+    </div>
+    <div class="app-container">
+        <header>
+            <h1>Expense Tracker</h1>
+            <p>Powered by WebAssembly Core</p>
+        </header>
+
+        <main>
+            <section class="dashboard-cards">
+                <div class="card">
+                    <h3>Monthly Budget</h3>
+                    <h2 id="budget-display">₹0.00</h2>
+                    <button id="set-budget-btn" class="text-btn">Edit Budget</button>
+                </div>
+                <div class="card">
+                    <h3>Total Expenses</h3>
+                    <h2 id="total-display">₹0.00</h2>
+                </div>
+                <div class="card" id="remaining-card">
+                    <h3>Remaining</h3>
+                    <h2 id="remaining-display">₹0.00</h2>
+                </div>
+            </section>
+            
+            <div id="insight-alert" class="insight-alert"></div>
+
+            <div class="main-content">
+                <div class="left-sidebar">
+                    <section class="add-expense-section form-card">
+                        <h2>Add Expense</h2>
+                        <form id="add-expense-form">
+                            <div class="input-group">
+                                <label for="date-input">Date</label>
+                                <input type="date" id="date-input" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="category-input">Category</label>
+                                <input type="text" id="category-input" placeholder="e.g. Food, Travel" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="amount-input">Amount</label>
+                                <input type="number" id="amount-input" step="0.01" min="0" placeholder="0.00" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="note-input">Note (Optional)</label>
+                                <input type="text" id="note-input" placeholder="Additional details">
+                            </div>
+                            <button type="submit" class="primary-btn">Add Expense</button>
+                        </form>
+                    </section>
+
+                    <section class="chart-card form-card" style="margin-top: 2rem;">
+                        <h2>Spending by Category</h2>
+                        <div class="chart-container" style="position: relative; height: 260px; width: 100%;">
+                            <canvas id="expense-chart"></canvas>
+                        </div>
+                        <div id="no-chart-data" class="empty-state" style="padding: 2rem 0; display:none;">
+                            <p>Add expenses to see analytics</p>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="expenses-list-section">
+                    <div class="list-header">
+                        <h2>Recent Expenses</h2>
+                        <span class="badge" id="expense-count-badge">0</span>
+                    </div>
+                    <div class="table-container">
+                        <table id="expenses-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Category</th>
+                                    <th>Note</th>
+                                    <th class="amount-col">Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenses-tbody">
+                                <!-- Populated dynamically by Javascript via WebAssembly -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="empty-state" class="empty-state">
+                        <p>No expenses found. Add one on the left!</p>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="budget-modal">
+        <div class="modal">
+            <h2>Set Monthly Budget</h2>
+            <div class="input-group">
+                <input type="number" id="new-budget-input" step="0.01" min="0" placeholder="0.00">
+            </div>
+            <div class="modal-actions">
+                <button class="text-btn" id="cancel-budget-btn">Cancel</button>
+                <button class="primary-btn" id="save-budget-btn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
